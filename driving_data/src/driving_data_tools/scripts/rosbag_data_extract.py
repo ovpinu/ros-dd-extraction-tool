@@ -53,7 +53,7 @@ def can_loader(msg):
     global can
     global can_ready
     can_ready = False
-    can = msg.dat
+    can = msg
     can_ready = True
 
 def nmea_loader(msg):
@@ -73,19 +73,19 @@ def cloud_loader(msg):
 
 def save_pcd(cloud, timestamp, path):
     p = pcl.PointCloud(np.array(list(pc2.read_points(cloud)), dtype=np.float32)[:, 0:3])
-    p.to_file(path + '/pcd' + '/pcd' + '_' + str(timestamp) + '.pcd')
+    p.to_file(path + '/pcd' + '/pcd' + '_' + "{:.5f}".format(timestamp) + '.pcd')
 
 def save_image(img, timestamp, path, sfx):
-    cv2.imwrite(path + '/camera' + sfx + '/camera_' + sfx + '_' + str(timestamp) + '.png', img)
+    cv2.imwrite(path + '/camera' + sfx + '/camera_' + sfx + '_' + "{:.5f}".format(timestamp) + '.png', img)
 
 def save_can(can, timestamp, path):
-    f = open(path + '/can' + '/can' + '_' + str(timestamp) + '.bin', 'wb')
-    f.write(can)
+    f = open(path+'/can'+'/can.bin', 'ab')
+    f.write("{:.5f}".format(timestamp)+','+str(can.id)+','+str(can.dat))
     f.close()
 
 def save_nmea(nmea, timestamp, path):
     f = open(path + '/nmea' + '/nmea.csv', 'a')
-    f.write(str(timestamp) + ',' + nmea)
+    f.write("{:.5f}".format(timestamp) + ',' + nmea)
     f.write('\n')
     f.close()
 
