@@ -11,6 +11,7 @@ from cv_bridge import CvBridge
 from can_msg.msg import CANPacket
 from nmea_msgs.msg import Sentence
 
+#this is a small change
 save_path = None
 camera_img_0 = None
 camera_img_1 = None
